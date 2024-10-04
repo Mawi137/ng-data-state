@@ -1,12 +1,25 @@
 {
   "name": "ng-data-state",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Lightweight Signal state management for Angular",
+  "author": "Martijn Willekens",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mawi137/ng-data-state.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mawi137/ng-data-state/issues"
+  },
+  "homepage": "https://github.com/Mawi137/ng-data-state",
+  "keywords": [
+    "angular",
+    "state",
+    "state management",
+    "signals"
+  ],
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "sideEffects": false
+  "license": "MIT"
 }

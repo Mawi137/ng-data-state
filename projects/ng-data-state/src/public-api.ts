@@ -1,6 +1,6 @@
-/*
- * Public API Surface of ng-data-state
- */
-
-export * from './lib/ng-data-state.service';
-export * from './lib/ng-data-state.component';
+export * from './lib/directives/if-state-error.directive';
+export * from './lib/directives/if-state-success.directive';
+export * from './lib/directives/if-state-loading.directive';
+export * from './lib/interfaces/data-state.interface';
+export * from './lib/utils/data-state.utils';
+export * from './lib/data-state.store';
