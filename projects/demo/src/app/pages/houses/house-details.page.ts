@@ -34,6 +34,8 @@ export class HouseDetailsPage implements OnChanges {
   private readonly houseStateService = inject(HouseStateService);
   private readonly houseMembersStateService = inject(HouseMembersStateService);
 
+  // Combine data states to show loader as long as one is still loading
+  // To show the house info when it's loaded and the members later when they are loaded, the states should not be combined
   readonly viewState$ = combineDataState({
     house: this.houseStateService.state$,
     members: this.houseMembersStateService.state$

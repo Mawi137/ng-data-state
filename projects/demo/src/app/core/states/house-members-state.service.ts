@@ -17,6 +17,7 @@ export class HouseMembersStateService {
   }
 
   load(characterIds: string[], update = false): Observable<Character[]> {
+    // Ideally the API provides a getMembersByHouse method, since this is not the case, forkJoin is used
     const source$ = forkJoin(
       characterIds
         .map((c) => c.substring(c.lastIndexOf('/') + 1))
