@@ -21,7 +21,7 @@ Here's an example of such a state service:
 
 ```typescript
 @Injectable()
-export class MyResourceStateService {
+export class MyResourcesStateService {
 
   private readonly store = new DataStateStore<MyResource[]>();
 
@@ -68,11 +68,11 @@ Like this you can easily create reusable global as well as component level state
 Inject the state service into the component and make the state available to the HTML.
 
 ```typescript
-private readonly myResourceStateService = inject(MyResourceStateService);
-readonly myResourceState$ = this.myResourceStateService.state$;
+private readonly myResourcesStateService = inject(MyResourcesStateService);
+readonly myResourcesState$ = this.myResourcesStateService.state$;
 ```
 
-Next, the `myResourceState$` signal can be used in the HTML.
+Next, the `myResourcesState$` signal can be used in the HTML.
 This library offers three directives to make things easier:
 - `*ifStateLoading`
 - `*ifStateSuccess`
@@ -82,12 +82,14 @@ When put on an HTML tag, that part of the template will only be rendered when th
 Here's an example:
 
 ```html
-<ng-container *ngIf="myResourceState$() as myResourceState">
-  <div *ifStateLoading="myResourceState">Loading...</div>
-  <div *ifStateSuccess="myResourceState; let myResource">
-    {{ myResource.name }}
+<ng-container *ngIf="myResourcesState$() as myResourcesState">
+  <div *ifStateLoading="myResourcesState">Loading...</div>
+  <div *ifStateSuccess="myResourcesState; let myResources">
+    <div *ngFor="let myResource of myResources">
+      {{ myResource.name }}
+    </div>
   </div>
-  <div *ifStateError="myResourceState; let error">
+  <div *ifStateError="myResourcesState; let error">
     {{ error }}
     <button (click)="retry()" type="button">Retry</button>
   </div>
