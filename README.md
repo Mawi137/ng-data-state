@@ -4,10 +4,9 @@ A lightweight state management Angular library designed for simplicity and perfo
 
 ## How does it work
 
-
 ### State services
 
-Data loaded from an API service usually has 3 states:
+Data loaded from an API service usually has three possible stages:
 - Loading
 - Success
 - Error
@@ -15,6 +14,7 @@ Data loaded from an API service usually has 3 states:
 This library wraps the Observables returned by for example HTTP calls in a so called `DataState<>`.
 Each Observable will first emit with status `Loading` and then `Success` or `Error` depending on the result.
 It stores the result in the `DataStateStore` class.
+
 To create an actual state, an Angular service can be created that has an instance of the `DataStateStore`.
 
 Here's an example of such a state service:
@@ -46,8 +46,8 @@ Optionally the `update` flag can be passed to tell the store to keep existing da
 The `state$` property is exposed which is a readonly Angular Signal.
 It can be used by injecting the state service into a component.
 
-The `load` method can be subscribed to when you are interested in the result or want to act on it when it is loaded.
-For example to load a related resource that depends on it.
+> The `load` method can be subscribed to when you are interested in the result or want to act on it when it is loaded.
+> For example to load a related resource that depends on it.
 > This is optional, the data will be loaded when the method is called whether you subscribe or not.
 
 Since this is an Angular service, you can choose where to provide it:
@@ -61,15 +61,17 @@ Since this is an Angular service, you can choose where to provide it:
   - Add the state service as a provider to the component
   - State will be kept as long as the component lives
 
-Like this you can easily create reusable global as well as component level states using the same structure.
+Like this you can easily create reusable global as well as component level states using the same simple structure.
 
 ### Using the state in the HTML
 
 Inject the state service into the component and make the state available to the HTML.
 
 ```typescript
-private readonly myResourcesStateService = inject(MyResourcesStateService);
-readonly myResourcesState$ = this.myResourcesStateService.state$;
+class MyComponent {
+  private readonly myResourcesStateService = inject(MyResourcesStateService);
+  readonly myResourcesState$ = this.myResourcesStateService.state$;
+}
 ```
 
 Next, the `myResourcesState$` signal can be used in the HTML.
@@ -90,7 +92,7 @@ Here's an example:
     </div>
   </div>
   <div *ifStateError="myResourcesState; let error">
-    {{ error }}
+    {{ error | json }}
     <button (click)="retry()" type="button">Retry</button>
   </div>
 </ng-container>
@@ -107,8 +109,19 @@ It takes a `Record<String, Signal<DataState<X>>` as input and will combine the d
 
 Example:
 ```typescript
-readonly viewState$ = combineDataState({
-  myResourceOne: this.myResourceOneStateService.state$,
-  myResourceTwo: this.myResourceTwoStateService.state$
-});
+class MyComponent {
+  readonly viewState$ = combineDataState({
+    myResourceOne: this.myResourceOneStateService.state$,
+    myResourceTwo: this.myResourceTwoStateService.state$
+  });
+}
 ```
+
+### Benefits
+
+By build Angular applications with this library:
+ - The state can be scoped where you want using the same structure for global, route-level and component-level states
+ - State service classes can be reused depending on where they are provided
+ - Data can be loaded without having to subscribe
+ - In the HTML you can easily reflect the current state of the data required for that page
+ - Data loading failures can be shown with a button to retry

@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { Signal, signal } from '@angular/core';
 import { DataState, LoadingStatus } from './interfaces/data-state.interface';
 import { toDataState } from './utils/data-state.utils';
 import { Observable, Subject } from 'rxjs';
@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 export class DataStateStore<T> {
 
   protected readonly _state$ = signal<DataState<T>>({status: LoadingStatus.INITIAL});
-  readonly state$ = this._state$.asReadonly();
+  readonly state$: Signal<DataState<T>> = this._state$.asReadonly();
 
   setState(state: DataState<T>): void {
     this._state$.set(state);
